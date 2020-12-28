@@ -3,11 +3,11 @@ import Head from 'next/head';
 import PropTypes from 'prop-types';
 import path from 'path';
 import classNames from 'classnames';
-
+import _ from 'lodash'
 import { listFiles } from '../files';
 
 // Used below, these need to be registered
-import MarkdownEditor from '../MarkdownEditor';
+import MarkdownEditor from '../components/MarkdownEditor';
 import PlaintextEditor from '../components/PlaintextEditor';
 
 import IconPlaintextSVG from '../public/icon-plaintext.svg';
@@ -16,6 +16,7 @@ import IconJavaScriptSVG from '../public/icon-javascript.svg';
 import IconJSONSVG from '../public/icon-json.svg';
 
 import css from './style.module.css';
+import CodeEditor from '../components/CodeEditor';
 
 const TYPE_TO_ICON = {
   'text/plain': IconPlaintextSVG,
@@ -99,8 +100,10 @@ Previewer.propTypes = {
 
 // Uncomment keys to register editors for media types
 const REGISTERED_EDITORS = {
-  // "text/plain": PlaintextEditor,
-  // "text/markdown": MarkdownEditor,
+  "text/plain": PlaintextEditor,
+  "text/markdown": MarkdownEditor,
+  "text/javascript": CodeEditor,
+  "application/json": CodeEditor
 };
 
 function PlaintextFilesChallenge() {
@@ -112,10 +115,16 @@ function PlaintextFilesChallenge() {
     setFiles(files);
   }, []);
 
-  const write = file => {
+  const write = (file, fileText) => {
     console.log('Writing soon... ', file.name);
 
     // TODO: Write the file to the `files` array
+    const index = files.findIndex(f => f.name === file.name)
+    files[index] = new File([fileText], file.name, {
+      type: file.type,
+      lastModified: new Date()
+    })
+    setFiles(files)
   };
 
   const Editor = activeFile ? REGISTERED_EDITORS[activeFile.type] : null;
@@ -134,7 +143,6 @@ function PlaintextFilesChallenge() {
             rendering and editing plaintext? Not much, as it turns out.
           </div>
         </header>
-
         <FilesTable
           files={files}
           activeFile={activeFile}

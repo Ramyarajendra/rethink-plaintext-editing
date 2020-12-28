@@ -12,3 +12,21 @@ To run the challenge:
 Once complete, please email us a link to your forked repo with clean, tested code. We will use Chrome to run it.
 
 - Rethink Engineering
+
+
+## Libraries
+
+1. react-ckeditor-component
+2. react-ace
+3. react-markdown
+## Functionality
+
+1. PlainTextEditor : Allows you to edit plain text and also style it.
+2. MarkDownEditor : Allows you to preview your changes done in the markdown editor
+3. CodeEditor : Allows you to edit code. Provides variable, line and parenthesis highlighting.
+
+Save Functionality - Used to save the changes made to the editor until refreshed. Updates the data changed along with the last modified date.
+
+## Limitations/ Enhancement
+
+1. Persistant storage and state management can be implemented
